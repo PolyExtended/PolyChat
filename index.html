@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://bootswatch.com/5/superhero/bootstrap.min.css">
+  <script src="tmi.js"></script>
+  <script src="twitch.js" type="module"></script>
+  <script src="bot.js" type="module"></script>
+  <!-- Additional styles for mobile nav -->
+
+  <style>
+    .navbar-toggler-icon {
+      color: #fff; /* Change the color of the mobile menu icon */
+    }
+
+    .overlay-chat {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 400px;
+      overflow-y: scroll; /* Change to scroll for vertical scrollbar */
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .channel-switcher {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+
+    /* Toast styles */
+    .toast-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    /* Chat message styles */
+    .chat-message {
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .emote-image {
+      width: 20px; /* Adjust the width of emote images as needed */
+      height: auto;
+    }
+
+    /* Additional style for tracked users */
+    #tracked-users {
+      color: white;
+      margin-top: 10px;
+    }
+  </style>
+  <title>PolyChat</title>
+</head>
+
+<body>
+
+  <header class="z-depth-1">
+    <nav class="navbar navbar-expand-lg navbar-dark backer-dark z-depth-0">
+      <div class="container">
+        <a class="navbar-brand" href="#">PolyChat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="https://rebrand.ly/PolyExtended">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://rebrand.ly/polylive">PolyLive</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://rebrand.ly/PolyStreamLookup">PolyLookup</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="https://rebrand.ly/polywyr">Poly - WYR?</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="alert alert-dismissible alert-light" id="connectionAlert" style="display: none;">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Heads up!</strong> You Are Now Connected To Twitch: Channel <span id="connectedChannel"></span>
+  </div>
+
+  <div class="overlay-chat" id="overlayChat">
+    <div class="channel-switcher">
+      <label for="channel-select" class="text-white">Switch Channel:</label>
+      <select id="channel-select" class="form-select" onchange="switchChannel()"></select>
+    </div>
+    <div id="tracked-users" class="text-white mt-2"></div>
+    <div id="chat-messages" class="chat-box"></div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container"></div>
+
+  <script>
+    // Fetch GitHub repository information
+fetch('https://api.github.com/repos/PolyExtended/PolyChat')
+  .then(response => response.json())
+  .then(data => {
+    const repositoryName = data.name;
+    const repositoryDescription = data.description;
+    const repositoryOwner = data.owner.login;
+    const repositoryUrl = data.html_url;
+    const repositoryImage = data.owner.avatar_url;
+
+    // Update Twitter Card meta tags
+    document.querySelector('meta[name="twitter:title"]').setAttribute('content', repositoryName);
+    document.querySelector('meta[name="twitter:description"]').setAttribute('content', repositoryDescription);
+    document.querySelector('meta[name="twitter:site"]').setAttribute('content', `@${repositoryOwner}`);
+    document.querySelector('meta[name="twitter:image"]').setAttribute('content', repositoryImage);
+
+    // Update Open Graph (OG) meta tags
+    document.querySelector('meta[property="og:title"]').setAttribute('content', repositoryName);
+    document.querySelector('meta[property="og:description"]').setAttribute('content', repositoryDescription);
+    document.querySelector('meta[property="og:url"]').setAttribute('content', repositoryUrl);
+    document.querySelector('meta[property="og:image"]').setAttribute('content', repositoryImage);
+    document.querySelector('meta[property="og:site_name"]').setAttribute('content', repositoryName);
+  })
+  .catch(error => {
+    console.error('Error fetching GitHub repository information:', error);
+  });
+
+    // Your existing JavaScript code (if any) can be placed here if needed.
+  </script>
+</body>
+
+</html>
