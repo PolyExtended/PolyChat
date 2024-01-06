@@ -1,2 +1,3 @@
 # PolyChat
-# [![PolyChat](https://i.vgy.me/l2MiT2.png)](https://www.PolyExtended.github.io/PolyChat)
+[![PolyChat](https://i.imgur.com/YOQL9b2.png "PolyChat")](https://polyextended.github.io/PolyChat "PolyChat")
+
